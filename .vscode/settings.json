@@ -1,4 +1,4 @@
 {
-    "window.zoomLevel": 1,
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "editor.fontSize": 10
 }
