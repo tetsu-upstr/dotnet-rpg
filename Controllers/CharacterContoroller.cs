@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using dotnet_rpg.Models;
 using System.Linq;
+using dotnet_rpg.Services.CharacterServices;
 
 namespace dotnet_rpg.Controllers
 {
@@ -9,22 +10,33 @@ namespace dotnet_rpg.Controllers
     [Route("[controller]")]
     public class CharacterController : ControllerBase
     {
-        private static List<Character> characters = new List<Character> {
-            new Character(),
-            new Character { Id = 1, Name = "Sam" }
-        };
 
-        [HttpGet("GetAll")] // localhost5000:/character/getall がURLになる
-        public IActionResult Get()
+        private readonly ICharacterService _characterService;
+
+        // call characterService parameter in Constructor
+        public CharacterController(ICharacterService characterService)
         {
-            // return Ok(knight);
-            return Ok(characters);
+            _characterService = characterService;
         }
 
+        // example >> localhost5000:/character/getall = baseURL
+        [HttpGet("GetAll")]
+        public IActionResult Get()
+        {
+            return Ok(_characterService.GetAllCharacters());
+        }
+
+        // example >> localhost5000:/character/1 = baseURL
         [HttpGet("{id}")]
         public IActionResult GetSingle(int id)
         {
-            return Ok(characters.FirstOrDefault(c => c.Id == id));
+            return Ok(_characterService.GetCharacterById(id));
+        }
+
+        [HttpPost]
+        public IActionResult AddCharacter(Character newCharacter)
+        {
+            return Ok(_characterService.AddCharacter(newCharacter));
         }
     }
 }
