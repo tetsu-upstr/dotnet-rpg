@@ -7,7 +7,7 @@ using dotnet_rpg.Models;
 
 namespace dotnet_rpg.Services.CharacterServices
 {
-    //　  implement the interface,
+    // implement the interface,
     public class CharacterService : ICharacterService
     {
         private static List<Character> characters = new List<Character> {
@@ -44,6 +44,23 @@ namespace dotnet_rpg.Services.CharacterServices
         {
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
             serviceResponse.Data = _mapper.Map<GetCharacterDto>(characters.FirstOrDefault(c => c.Id == id));
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
+        { 
+            ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
+
+            // check character's ID
+            Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+            character.Name = updatedCharacter.Name;
+            character.Class = updatedCharacter.Class;
+            character.Defense = updatedCharacter.Defense;
+            character.HitPoints = updatedCharacter.HitPoints;
+            character.Intelligence = updatedCharacter.Intelligence;
+            character.Strength = updatedCharacter.Strength;
+
+            serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
             return serviceResponse;
         }
     }
