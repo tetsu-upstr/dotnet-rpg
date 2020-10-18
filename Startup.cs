@@ -1,3 +1,4 @@
+using AutoMapper;
 using dotnet_rpg.Services.CharacterServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,8 @@ namespace dotnet_rpg
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            // Add Mapper
+            services.AddAutoMapper(typeof(Startup));
             // Add CharactersService
             services.AddScoped<ICharacterService, CharacterService>();
         }
